@@ -3,6 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GamePlayController;
 use Illuminate\Support\Facades\Route;
+use App\Services\TriviaApiService;
+
+Route::get('/test-api', function () {
+    $triviaService = new TriviaApiService();
+    return $triviaService->fetchQuestions();
+});
 
 Route::get('/', function () {
     return view('welcome');
