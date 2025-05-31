@@ -30,6 +30,7 @@ class GamePlayController extends Controller
         $game->current_question_index = 0;
         $game->score = 0;
         $game->save();
+        dd($game); 
 
         return redirect()->route('game.question', $game->id);
     }
