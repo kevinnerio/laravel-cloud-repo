@@ -28,8 +28,6 @@ class GamePlayController extends Controller
             }
 
             Session::put('questions', $questions['results']);
-
-            dd(Session::get('questions')); 
  
             $game = new Game();
             $game->session_id = Session::getId();
@@ -38,6 +36,7 @@ class GamePlayController extends Controller
             $game->save();  
     
             return redirect()->route('game.question', $game->id);
+            
         } catch (\Exception $e) {
             Log::error('Start game failed: ', [
                 'message' => $e->getMessage(),
@@ -51,7 +50,6 @@ class GamePlayController extends Controller
     public function showQuestion(Game $game)
     {
         Session::put('test', 'Hello World'); 
-        dd(Session::all()); 
         $questions = Session::get('questions');
         $question = $questions[$game->current_question_index];
 
