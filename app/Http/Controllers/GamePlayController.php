@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Services\TriviaApiService;
 use Illuminate\Support\Facades\Session;
+use illuminate\Support\Facades\Log; 
 
 class GamePlayController extends Controller
 {
@@ -31,8 +32,12 @@ class GamePlayController extends Controller
     
             return redirect()->route('game.question', $game->id);
         } catch (\Exception $e) {
-            Log::error('Start game failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to start game.'], 500);
+            Log::error('Start game failed: ', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            
+            return response()->json(['error' => 'failed to start game.'], 500); 
         }
     }
 
