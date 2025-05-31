@@ -44,6 +44,7 @@ class GamePlayController extends Controller
     public function showQuestion(Game $game)
     {
         $questions = Session::get('questions');
+        dd($questions); 
         $question = $questions[$game->current_question_index];
 
         return view('game.question', compact('game', 'question'));
