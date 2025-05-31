@@ -22,7 +22,7 @@ class GamePlayController extends Controller
         try {    
             $questions = $this->triviaApi->fetchQuestions();
             Session::put('questions', $questions['results']);
-            dd(Session::all());     
+            //dd(Session::all());     
             $game = new Game();
             $game->session_id = Session::getId();
             $game->current_question_index = 0;
@@ -42,6 +42,8 @@ class GamePlayController extends Controller
 
     public function showQuestion(Game $game)
     {
+        Session::put('test', 'Hello World'); 
+        dd(Session::all()); 
         $questions = Session::get('questions');
         $question = $questions[$game->current_question_index];
 
