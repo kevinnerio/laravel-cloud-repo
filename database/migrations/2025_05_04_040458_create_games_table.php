@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->string('session_id')->nullable();
             $table->integer('current_question_index')->default(0);
             $table->integer('score')->default(0);
+            $table->json('questions')->nullable();
             $table->timestamps();
 
             // Optional foreign key

@@ -12,6 +12,10 @@ class GamePlayController extends Controller
 {
     protected $triviaApi;
 
+    protected $casts = [
+        'questions' => 'array',
+    ];
+
     public function __construct(TriviaApiService $triviaApi)
     {
         $this->triviaApi = $triviaApi;
@@ -32,9 +36,14 @@ class GamePlayController extends Controller
             $game = new Game();
             $game->session_id = Session::getId();
             $game->current_question_index = 0;
-            $game->score = 0;
-            $game->save();  
-    
+            $game->score = 0; 
+            $game->questions = $questions['results'];  
+            try {
+                $game->save();
+            } catch (\Exception $e) {
+                dd('Save failed:', $e->getMessage(), $e->getTraceAsString());
+            } 
+            
             return redirect()->route('game.question', $game->id);
 
         } catch (\Exception $e) {
@@ -49,9 +58,8 @@ class GamePlayController extends Controller
 
     public function showQuestion(Game $game)
     {
-        Session::put('test', 'Hello World'); 
-        $questions = Session::get('questions');
-        dd(Session::all()); 
+        //dd($game); 
+        $questions = $game['questions'];
         $question = $questions[$game->current_question_index];
 
         return view('game.question', compact('game', 'question'));

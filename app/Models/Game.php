@@ -12,4 +12,7 @@ class Game extends Model
     {
         return $this->belongsToMany(Player::class);
     }
+    protected $casts = [
+        'questions' => 'array',
+    ];
 }
