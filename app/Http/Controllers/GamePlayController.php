@@ -36,7 +36,7 @@ class GamePlayController extends Controller
             $game->save();  
     
             return redirect()->route('game.question', $game->id);
-            
+
         } catch (\Exception $e) {
             Log::error('Start game failed: ', [
                 'message' => $e->getMessage(),
@@ -51,6 +51,7 @@ class GamePlayController extends Controller
     {
         Session::put('test', 'Hello World'); 
         $questions = Session::get('questions');
+        dd(Session::all()); 
         $question = $questions[$game->current_question_index];
 
         return view('game.question', compact('game', 'question'));
