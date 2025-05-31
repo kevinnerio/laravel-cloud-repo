@@ -67,7 +67,7 @@ class GamePlayController extends Controller
 
     public function submitAnswer(Request $request, Game $game)
     {
-        $questions = Session::get('questions');
+        $questions = $game['questions'];
         $currentQuestion = $questions[$game->current_question_index];
 
         $isCorrect = $request->input('answer') === $currentQuestion['correct_answer'];
@@ -87,7 +87,7 @@ class GamePlayController extends Controller
 
     public function result(Game $game)
     {
-        $questions = Session::get('questions');
+        $questions = $game['questions'];
     
         return view('game.result', [
             'score' => $game->score,
