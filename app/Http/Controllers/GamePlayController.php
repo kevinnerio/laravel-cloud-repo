@@ -21,8 +21,16 @@ class GamePlayController extends Controller
     {
         try {    
             $questions = $this->triviaApi->fetchQuestions();
+
+            // Check if we got results from the API
+            if (empty($questions['results']) || !is_array($questions['results'])) {
+                return back()->with('error', 'Failed to fetch questions. Please try again.');
+            }
+
             Session::put('questions', $questions['results']);
-            //dd(Session::all());     
+
+            dd(Session::get('questions')); 
+ 
             $game = new Game();
             $game->session_id = Session::getId();
             $game->current_question_index = 0;
