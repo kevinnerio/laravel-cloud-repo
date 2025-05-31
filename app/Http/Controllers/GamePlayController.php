@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Services\TriviaApiService;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log; 
 
 class GamePlayController extends Controller
 {
@@ -18,20 +19,27 @@ class GamePlayController extends Controller
 
     public function start()
     {
-        // Fetch trivia questions from the API
-        $questions = $this->triviaApi->fetchQuestions();
-
-        // Store questions in session or temp storage (you can also save them to the database if needed)
-        Session::put('questions', $questions['results']);
-        
-        // Create a new game entry
-        $game = new Game();
-        $game->session_id = Session::getId();
-        $game->current_question_index = 0;
-        $game->score = 0;
-        $game->save();
-
-        return redirect()->route('game.question', $game->id);
+        try {
+            $questions = $this->triviaApi->fetchQuestions();
+    
+            Session::put('questions', $questions['results']);
+    
+            $game = new Game();
+            dd($game);  
+            $game->session_id = Session::getId();
+            $game->current_question_index = 0;
+            $game->score = 0;
+            $game->save();
+    
+            return redirect()->route('game.question', $game->id);
+        } catch (\Exception $e) {
+            Log::error('Start game failed: ', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            
+            return response()->json(['error' => 'failed to start game.'], 500); 
+        }
     }
 
     public function showQuestion(Game $game)
