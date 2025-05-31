@@ -25,11 +25,11 @@ class GamePlayController extends Controller
             Session::put('questions', $questions['results']);
     
             $game = new Game();
-            dd($game);  
             $game->session_id = Session::getId();
             $game->current_question_index = 0;
             $game->score = 0;
             $game->save();
+            dd($game);  
     
             return redirect()->route('game.question', $game->id);
         } catch (\Exception $e) {
