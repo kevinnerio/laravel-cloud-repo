@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Services\TriviaApiService;
 use Illuminate\Support\Facades\Session;
-use illuminate\Support\Facades\Log; 
+use Illuminate\Support\Facades\Log; 
 
 class GamePlayController extends Controller
 {
